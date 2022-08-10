@@ -1,11 +1,12 @@
 import loadImage, { LoadImageResult } from "blueimp-load-image";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { API_KEY, API_URL, BASE64_IMAGE_HEADER } from "../Constants";
+import { DEFAULT_FOLDER_NAME, Folders } from "../utils";
 
 const useImageUpload = () => {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [folders, setFolders] = useState<Folders>({});
 
-  const uploadImageToServer = (file: File) => {
+  const uploadImageToServer = (file: File, folderId: number) => {
     loadImage(file, {
       maxWidth: 400,
       maxHeight: 400,
@@ -37,7 +38,19 @@ const useImageUpload = () => {
         const result = await response.json();
         const base64Result = BASE64_IMAGE_HEADER + result.result_b64;
 
-        setImageUrls([...imageUrls, base64Result]);
+        const name =
+          folders[folderId]?.name ||
+          (folderId ? `Folder #${folderId}` : DEFAULT_FOLDER_NAME);
+
+        const nextFolders = {
+          ...folders,
+          [folderId]: {
+            name,
+            imageUrls: [...(folders[folderId]?.imageUrls || []), base64Result],
+          },
+        };
+
+        setFolders(nextFolders);
       })
 
       .catch((error) => {
@@ -45,15 +58,18 @@ const useImageUpload = () => {
       });
   };
 
-  const onImageAdd = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      uploadImageToServer(e.target.files[0]);
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const addFolder = () => {};
+
+  const addImage = (folderId: number) => (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      uploadImageToServer(e.target.files[0], folderId);
     } else {
       console.error("No file was picked");
     }
-  }, []);
+  };
 
-  return { imageUrls, onImageAdd };
+  return { folders, addFolder, addImage };
 };
 
 export default useImageUpload;
