@@ -1,19 +1,22 @@
 import "./App.css";
 import AddButton from "./components/AddButton";
+import Images from "./components/Images";
 import useImageUpload from "./hooks/useImageUpload";
 
 const App = () => {
-  const { result, onImageAdd } = useImageUpload();
+  const { imageUrls, onImageAdd } = useImageUpload();
 
   return (
     <div>
-      {!result ? (
-        <header className="flex h-screen w-full items-center justify-center">
-          <AddButton onImageAdd={onImageAdd} />
-        </header>
-      ) : (
-        <img alt="result from the API" src={result} width={300} />
-      )}
+      <header
+        className={`flex w-full items-center justify-center ${
+          imageUrls.length ? "p-4" : "h-screen"
+        }`}
+      >
+        <AddButton onImageAdd={onImageAdd} />
+      </header>
+
+      {!!imageUrls.length && <Images imageUrls={imageUrls} />}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useState } from "react";
 import { API_KEY, API_URL, BASE64_IMAGE_HEADER } from "../Constants";
 
 const useImageUpload = () => {
-  const [result, setResult] = useState<string | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const uploadImageToServer = (file: File) => {
     loadImage(file, {
@@ -37,7 +37,7 @@ const useImageUpload = () => {
         const result = await response.json();
         const base64Result = BASE64_IMAGE_HEADER + result.result_b64;
 
-        setResult(base64Result);
+        setImageUrls([...imageUrls, base64Result]);
       })
 
       .catch((error) => {
@@ -53,7 +53,7 @@ const useImageUpload = () => {
     }
   }, []);
 
-  return { result, onImageAdd };
+  return { imageUrls, onImageAdd };
 };
 
 export default useImageUpload;
