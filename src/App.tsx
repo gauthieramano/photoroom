@@ -19,16 +19,21 @@ const App = () => {
         {foldersEntries.length ? (
           <FolderButton onClick={addFolder} />
         ) : (
-          <AddButton onImageAdd={addImage(0)} />
+          <AddButton folderId="initial" onImageAdd={addImage(0)} />
         )}
       </header>
 
       {foldersEntries.map(([folderId, folder]) => (
         <Section
+          button={
+            <AddButton
+              folderId={folderId}
+              onImageAdd={addImage(parseInt(folderId))}
+            />
+          }
           folder={folder}
           isFirst={folderId === "0"}
           key={folderId}
-          onImageAdd={addImage(parseInt(folderId))}
         />
       ))}
     </div>

@@ -1,7 +1,7 @@
 import loadImage, { LoadImageResult } from "blueimp-load-image";
 import { ChangeEvent, useState } from "react";
 import { API_KEY, API_URL, BASE64_IMAGE_HEADER } from "../Constants";
-import { DEFAULT_FOLDER_NAME, Folders } from "../utils";
+import { DEFAULT_FOLDER_NAME, Folders, getFolderName } from "../utils";
 
 const useImageUpload = () => {
   const [folders, setFolders] = useState<Folders>({});
@@ -40,7 +40,7 @@ const useImageUpload = () => {
 
         const name =
           folders[folderId]?.name ||
-          (folderId ? `Folder #${folderId}` : DEFAULT_FOLDER_NAME);
+          (folderId ? getFolderName(folderId) : DEFAULT_FOLDER_NAME);
 
         const nextFolders = {
           ...folders,
@@ -58,8 +58,19 @@ const useImageUpload = () => {
       });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const addFolder = () => {};
+  const addFolder = () => {
+    const folderId = Object.keys(folders).length;
+
+    const nextFolders = {
+      ...folders,
+      [folderId]: {
+        name: getFolderName(folderId),
+        imageUrls: [],
+      },
+    };
+
+    setFolders(nextFolders);
+  };
 
   const addImage = (folderId: number) => (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
