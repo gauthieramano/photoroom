@@ -1,25 +1,23 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import start from "../startButton.svg";
 
-export default function AddButton ({
-    onImageAdd,
-  }: {
-    onImageAdd: (event: ChangeEvent<HTMLInputElement>) => void;
-  }): JSX.Element {
+type Props = {
+  onImageAdd: (event: ChangeEvent<HTMLInputElement>) => void;
+};
 
-   return (
-
+const AddButton = ({ onImageAdd }: Props) => (
   <div className="add-button-wrapper">
-    <label className="add-button-label"
-           htmlFor="customFileAdd">
-      <input type="file"
-             onChange={onImageAdd}
-             className="file-input"
-             id="customFileAdd"
-             accept=".png, .jpg, .jpeg"/>
-      <img src={start} alt="" className="add-button-image"/>
+    <label className="add-button-label" htmlFor="customFileAdd">
+      <input
+        accept=".png, .jpg, .jpeg"
+        className="file-input"
+        id="customFileAdd"
+        onChange={onImageAdd}
+        type="file"
+      />
+      <img alt="" className="add-button-image" src={start} />
     </label>
   </div>
+);
 
-
-)}
+export default AddButton;
