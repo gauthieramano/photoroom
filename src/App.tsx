@@ -55,8 +55,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      <header>
         {!result && <AddButton onImageAdd={onImageAdd} />}
         {!!result && <img alt="result from the API" src={result} width={300} />}
       </header>
