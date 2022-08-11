@@ -1,5 +1,6 @@
 import { useDrop } from "react-dnd";
 import { DragItem, DRAG_TYPE, Folder, OnMoveImage } from "../utils";
+import FolderName from "./FolderName";
 import Image from "./Image";
 
 type Props = {
@@ -40,7 +41,7 @@ const Section = ({
       } ${!isOver ? "" : canDrop ? "bg-teal-100" : "bg-red-100"}`}
       ref={dropRef}
     >
-      <p className="py-4">{name}</p>
+      <FolderName name={name} />
 
       <div className="grid grid-cols-[auto_1fr] items-start gap-3">
         {button}
