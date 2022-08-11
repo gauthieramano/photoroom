@@ -16,10 +16,12 @@ const App = () => {
     setFolders,
   });
 
-  const { addFolder, changeFolderName, moveImage } = useUiActions({
-    folders,
-    setFolders,
-  });
+  const { addFolder, changeFolderName, deleteFolder, moveImage } = useUiActions(
+    {
+      folders,
+      setFolders,
+    }
+  );
 
   const foldersEntries = Object.entries(folders);
 
@@ -42,6 +44,7 @@ const App = () => {
           <SectionWrapper
             addImage={addImage}
             changeFolderName={changeFolderName}
+            deleteFolder={deleteFolder}
             folderId={parseInt(folderId)}
             imageUrls={imageUrls}
             key={folderId}

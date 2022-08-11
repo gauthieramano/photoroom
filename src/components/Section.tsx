@@ -4,6 +4,7 @@ import Image from "./Image";
 
 type Props = {
   button: JSX.Element;
+  deleteButton: JSX.Element;
   folderId: number;
   folderName: JSX.Element;
   isFirst: boolean;
@@ -13,6 +14,7 @@ type Props = {
 
 const Section = ({
   button,
+  deleteButton,
   folderId,
   folderName,
   imageUrls,
@@ -37,7 +39,7 @@ const Section = ({
 
   return (
     <div
-      className={`border bg-slate-200 px-4 pb-4 ${
+      className={`relative border bg-slate-200 px-4 pb-4 ${
         isFirst ? "" : "border-x-0 border-t border-b-0 border-slate-300"
       } ${!isOver ? "" : canDrop ? "bg-teal-100" : "bg-red-100"}`}
       ref={dropRef}
@@ -57,6 +59,7 @@ const Section = ({
           ))}
         </div>
       </div>
+      <div className="absolute right-4 top-2">{deleteButton}</div>
     </div>
   );
 };

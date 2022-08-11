@@ -16,7 +16,8 @@ const useUiActions = ({ folders, setFolders }: Args) => {
    ********************************************************/
 
   const addFolder = () => {
-    const folderId = Object.keys(folders).length;
+    const folderId =
+      Math.max(...Object.keys(folders).map((id) => parseInt(id))) + 1;
 
     const nextFolders = {
       ...folders,
@@ -55,6 +56,17 @@ const useUiActions = ({ folders, setFolders }: Args) => {
 
       return true;
     };
+  /* ******************************************************
+   *                      addFolder                       *
+   ********************************************************/
+
+  const deleteFolder = (folderId: number) => () => {
+    const nextFolders = { ...folders };
+
+    delete nextFolders[folderId];
+
+    setFolders(nextFolders);
+  };
 
   /* ******************************************************
    *                      moveImage                       *
@@ -86,7 +98,7 @@ const useUiActions = ({ folders, setFolders }: Args) => {
    *                        Return                        *
    ********************************************************/
 
-  return { addFolder, changeFolderName, moveImage };
+  return { addFolder, changeFolderName, deleteFolder, moveImage };
 };
 
 export default useUiActions;
