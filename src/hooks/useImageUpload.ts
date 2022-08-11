@@ -1,10 +1,19 @@
 import loadImage, { LoadImageResult } from "blueimp-load-image";
 import { ChangeEvent, useState } from "react";
 import { API_KEY, API_URL, BASE64_IMAGE_HEADER } from "../Constants";
-import { DEFAULT_FOLDER_NAME, Folders, getFolderName } from "../utils";
+import {
+  DEFAULT_FOLDER_NAME,
+  Folders,
+  getFolderName,
+  OnMoveImage,
+} from "../utils";
 
 const useImageUpload = () => {
   const [folders, setFolders] = useState<Folders>({});
+
+  /* ******************************************************
+   *                 uploadImageToServer                  *
+   ********************************************************/
 
   const uploadImageToServer = (file: File, folderId: number) => {
     loadImage(file, {
@@ -58,6 +67,10 @@ const useImageUpload = () => {
       });
   };
 
+  /* ******************************************************
+   *                      addFolder                       *
+   ********************************************************/
+
   const addFolder = () => {
     const folderId = Object.keys(folders).length;
 
@@ -72,6 +85,36 @@ const useImageUpload = () => {
     setFolders(nextFolders);
   };
 
+  /* ******************************************************
+   *                      moveImage                       *
+   ********************************************************/
+
+  const moveImage =
+    (prevFolderId: number): OnMoveImage =>
+    (nextFolderId, imageUrl) => {
+      const nextFolders = {
+        ...folders,
+
+        [prevFolderId]: {
+          ...folders[prevFolderId],
+          imageUrls: folders[prevFolderId].imageUrls.filter(
+            (url) => url !== imageUrl
+          ),
+        },
+
+        [nextFolderId]: {
+          ...folders[nextFolderId],
+          imageUrls: [...folders[nextFolderId].imageUrls, imageUrl],
+        },
+      };
+
+      setFolders(nextFolders);
+    };
+
+  /* ******************************************************
+   *                       addImage                       *
+   ********************************************************/
+
   const addImage = (folderId: number) => (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       uploadImageToServer(e.target.files[0], folderId);
@@ -80,7 +123,11 @@ const useImageUpload = () => {
     }
   };
 
-  return { folders, addFolder, addImage };
+  /* ******************************************************
+   *                        Return                        *
+   ********************************************************/
+
+  return { folders, addFolder, addImage, moveImage };
 };
 
 export default useImageUpload;
