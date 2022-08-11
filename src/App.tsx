@@ -7,11 +7,17 @@ import FolderName from "./components/FolderName";
 import Section from "./components/Section";
 import useImageUpload from "./hooks/useImageUpload";
 import useStore from "./hooks/useStore";
+import useUiActions from "./hooks/useUiActions";
 
 const App = () => {
   const { folders, setFolders } = useStore();
 
-  const { addFolder, addImage, changeFolderName, moveImage } = useImageUpload({
+  const { addImage } = useImageUpload({
+    folders,
+    setFolders,
+  });
+
+  const { addFolder, changeFolderName, moveImage } = useUiActions({
     folders,
     setFolders,
   });

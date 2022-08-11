@@ -1,13 +1,7 @@
 import loadImage, { LoadImageResult } from "blueimp-load-image";
 import { ChangeEvent } from "react";
 import { API_KEY, API_URL, BASE64_IMAGE_HEADER } from "../Constants";
-import {
-  DEFAULT_FOLDER_NAME,
-  Folders,
-  getFolderName,
-  OnChangeFolderName,
-  OnMoveImage,
-} from "../utils";
+import { DEFAULT_FOLDER_NAME, Folders, getFolderName } from "../utils";
 
 type Args = {
   folders: Folders;
@@ -81,77 +75,6 @@ const useImageUpload = ({ folders, setFolders }: Args) => {
   };
 
   /* ******************************************************
-   *                      addFolder                       *
-   ********************************************************/
-
-  const addFolder = () => {
-    const folderId = Object.keys(folders).length;
-
-    const nextFolders = {
-      ...folders,
-      [folderId]: {
-        name: getFolderName(folderId),
-        imageUrls: [],
-      },
-    };
-
-    setFolders(nextFolders);
-  };
-
-  /* ******************************************************
-   *                   changeFolderName                   *
-   ********************************************************/
-
-  const changeFolderName =
-    (folderId: number): OnChangeFolderName =>
-    (folderName) => {
-      const allNames = Object.values(folders).flatMap(({ name }) => name);
-
-      // Two folders cannot have the same name
-      if (allNames.includes(folderName)) {
-        return false;
-      }
-
-      const nextFolders = {
-        ...folders,
-        [folderId]: {
-          ...folders[folderId],
-          name: folderName,
-        },
-      };
-
-      setFolders(nextFolders);
-
-      return true;
-    };
-
-  /* ******************************************************
-   *                      moveImage                       *
-   ********************************************************/
-
-  const moveImage =
-    (prevFolderId: number): OnMoveImage =>
-    (nextFolderId, imageUrl) => {
-      const nextFolders = {
-        ...folders,
-
-        [prevFolderId]: {
-          ...folders[prevFolderId],
-          imageUrls: folders[prevFolderId].imageUrls.filter(
-            (url) => url !== imageUrl
-          ),
-        },
-
-        [nextFolderId]: {
-          ...folders[nextFolderId],
-          imageUrls: [...folders[nextFolderId].imageUrls, imageUrl],
-        },
-      };
-
-      setFolders(nextFolders);
-    };
-
-  /* ******************************************************
    *                       addImage                       *
    ********************************************************/
 
@@ -167,7 +90,7 @@ const useImageUpload = ({ folders, setFolders }: Args) => {
    *                        Return                        *
    ********************************************************/
 
-  return { addFolder, addImage, changeFolderName, moveImage };
+  return { addImage };
 };
 
 export default useImageUpload;
