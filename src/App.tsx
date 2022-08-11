@@ -3,6 +3,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "./App.css";
 import AddButton from "./components/AddButton";
 import FolderButton from "./components/FolderButton";
+import FolderName from "./components/FolderName";
 import Section from "./components/Section";
 import useImageUpload from "./hooks/useImageUpload";
 import useStore from "./hooks/useStore";
@@ -32,7 +33,7 @@ const App = () => {
       </header>
 
       <DndProvider backend={HTML5Backend}>
-        {foldersEntries.map(([folderId, folder]) => (
+        {foldersEntries.map(([folderId, { imageUrls, name }]) => (
           <Section
             button={
               <AddButton
@@ -40,11 +41,16 @@ const App = () => {
                 onImageAdd={addImage(parseInt(folderId))}
               />
             }
-            folder={folder}
             folderId={parseInt(folderId)}
+            folderName={
+              <FolderName
+                name={name}
+                onChangeFolderName={changeFolderName(parseInt(folderId))}
+              />
+            }
+            imageUrls={imageUrls}
             isFirst={folderId === "0"}
             key={folderId}
-            onChangeFolderName={changeFolderName(parseInt(folderId))}
             onMoveImage={moveImage(parseInt(folderId))}
           />
         ))}
