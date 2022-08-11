@@ -47,6 +47,15 @@ const useImageUpload = () => {
         const result = await response.json();
         const base64Result = BASE64_IMAGE_HEADER + result.result_b64;
 
+        const allImageUrls = Object.values(folders).flatMap(
+          ({ imageUrls }) => imageUrls
+        );
+
+        // An image cannot be added twice, regardless the folders
+        if (allImageUrls.includes(base64Result)) {
+          return;
+        }
+
         const name =
           folders[folderId]?.name ||
           (folderId ? getFolderName(folderId) : DEFAULT_FOLDER_NAME);
