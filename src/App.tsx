@@ -10,7 +10,7 @@ import useStore from "./hooks/useStore";
 const App = () => {
   const { folders, setFolders } = useStore();
 
-  const { addFolder, addImage, moveImage } = useImageUpload({
+  const { addFolder, addImage, changeFolderName, moveImage } = useImageUpload({
     folders,
     setFolders,
   });
@@ -44,6 +44,7 @@ const App = () => {
             folderId={parseInt(folderId)}
             isFirst={folderId === "0"}
             key={folderId}
+            onChangeFolderName={changeFolderName(parseInt(folderId))}
             onMoveImage={moveImage(parseInt(folderId))}
           />
         ))}

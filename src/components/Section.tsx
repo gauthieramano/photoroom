@@ -1,5 +1,11 @@
 import { useDrop } from "react-dnd";
-import { DragItem, DRAG_TYPE, Folder, OnMoveImage } from "../utils";
+import {
+  DragItem,
+  DRAG_TYPE,
+  Folder,
+  OnChangeFolderName,
+  OnMoveImage,
+} from "../utils";
 import FolderName from "./FolderName";
 import Image from "./Image";
 
@@ -9,6 +15,7 @@ type Props = {
   folderId: number;
   isFirst: boolean;
   onMoveImage: OnMoveImage;
+  onChangeFolderName: OnChangeFolderName;
 };
 
 const Section = ({
@@ -17,6 +24,7 @@ const Section = ({
   folderId,
   isFirst,
   onMoveImage,
+  onChangeFolderName,
 }: Props) => {
   const [{ canDrop, isOver }, dropRef] = useDrop(
     () => ({
@@ -41,7 +49,7 @@ const Section = ({
       } ${!isOver ? "" : canDrop ? "bg-teal-100" : "bg-red-100"}`}
       ref={dropRef}
     >
-      <FolderName name={name} />
+      <FolderName name={name} onChangeFolderName={onChangeFolderName} />
 
       <div className="grid grid-cols-[auto_1fr] items-start gap-3">
         {button}

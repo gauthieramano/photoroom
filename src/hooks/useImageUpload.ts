@@ -5,6 +5,7 @@ import {
   DEFAULT_FOLDER_NAME,
   Folders,
   getFolderName,
+  OnChangeFolderName,
   OnMoveImage,
 } from "../utils";
 
@@ -98,6 +99,33 @@ const useImageUpload = ({ folders, setFolders }: Args) => {
   };
 
   /* ******************************************************
+   *                   changeFolderName                   *
+   ********************************************************/
+
+  const changeFolderName =
+    (folderId: number): OnChangeFolderName =>
+    (folderName) => {
+      const allNames = Object.values(folders).flatMap(({ name }) => name);
+
+      // Two folders cannot have the same name
+      if (allNames.includes(folderName)) {
+        return false;
+      }
+
+      const nextFolders = {
+        ...folders,
+        [folderId]: {
+          ...folders[folderId],
+          name: folderName,
+        },
+      };
+
+      setFolders(nextFolders);
+
+      return true;
+    };
+
+  /* ******************************************************
    *                      moveImage                       *
    ********************************************************/
 
@@ -139,7 +167,7 @@ const useImageUpload = ({ folders, setFolders }: Args) => {
    *                        Return                        *
    ********************************************************/
 
-  return { addFolder, addImage, moveImage };
+  return { addFolder, addImage, changeFolderName, moveImage };
 };
 
 export default useImageUpload;
