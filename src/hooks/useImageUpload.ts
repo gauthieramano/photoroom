@@ -1,5 +1,5 @@
 import loadImage, { LoadImageResult } from "blueimp-load-image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { API_KEY, API_URL, BASE64_IMAGE_HEADER } from "../Constants";
 import {
   DEFAULT_FOLDER_NAME,
@@ -8,9 +8,12 @@ import {
   OnMoveImage,
 } from "../utils";
 
-const useImageUpload = () => {
-  const [folders, setFolders] = useState<Folders>({});
+type Args = {
+  folders: Folders;
+  setFolders: (folders: Folders) => void;
+};
 
+const useImageUpload = ({ folders, setFolders }: Args) => {
   /* ******************************************************
    *                 uploadImageToServer                  *
    ********************************************************/
@@ -136,7 +139,7 @@ const useImageUpload = () => {
    *                        Return                        *
    ********************************************************/
 
-  return { folders, addFolder, addImage, moveImage };
+  return { addFolder, addImage, moveImage };
 };
 
 export default useImageUpload;

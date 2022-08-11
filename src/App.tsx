@@ -5,9 +5,15 @@ import AddButton from "./components/AddButton";
 import FolderButton from "./components/FolderButton";
 import Section from "./components/Section";
 import useImageUpload from "./hooks/useImageUpload";
+import useStore from "./hooks/useStore";
 
 const App = () => {
-  const { folders, addFolder, addImage, moveImage } = useImageUpload();
+  const { folders, setFolders } = useStore();
+
+  const { addFolder, addImage, moveImage } = useImageUpload({
+    folders,
+    setFolders,
+  });
 
   const foldersEntries = Object.entries(folders);
 
