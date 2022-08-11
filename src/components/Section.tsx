@@ -34,20 +34,26 @@ const Section = ({
   );
 
   return (
-    <div className="border bg-slate-200 p-4" ref={dropRef}>
-      <p className={`${isFirst ? "pb-4" : "border-t border-slate-400 py-4"}`}>
-        {name}
-      </p>
+    <div
+      className={`border bg-slate-200 px-4 pb-4 ${
+        isFirst ? "" : "border-x-0 border-t border-b-0 border-slate-300"
+      } ${!isOver ? "" : canDrop ? "bg-teal-100" : "bg-red-100"}`}
+      ref={dropRef}
+    >
+      <p className="py-4">{name}</p>
 
-      <div
-        className={`flex flex-wrap gap-3 ${
-          !isOver ? "" : canDrop ? "bg-teal-200" : "bg-red-200"
-        }`}
-      >
+      <div className="grid grid-cols-[auto_1fr] items-start gap-3">
         {button}
-        {imageUrls.map((imageUrl) => (
-          <Image imageUrl={imageUrl} key={imageUrl} onMoveImage={onMoveImage} />
-        ))}
+
+        <div className="flex flex-wrap gap-3">
+          {imageUrls.map((imageUrl) => (
+            <Image
+              imageUrl={imageUrl}
+              key={imageUrl}
+              onMoveImage={onMoveImage}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
