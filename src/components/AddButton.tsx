@@ -1,9 +1,9 @@
-import { ChangeEvent } from "react";
+import { ChangeEventHandler } from "react";
 import start from "../startButton.svg";
 
 type Props = {
-  folderId: string;
-  onImageAdd: (event: ChangeEvent<HTMLInputElement>) => void;
+  folderId: number;
+  onImageAdd: ChangeEventHandler<HTMLInputElement>;
 };
 
 const AddButton = ({ folderId, onImageAdd }: Props) => (

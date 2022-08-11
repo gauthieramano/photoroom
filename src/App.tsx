@@ -3,8 +3,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "./App.css";
 import AddButton from "./components/AddButton";
 import FolderButton from "./components/FolderButton";
-import FolderName from "./components/FolderName";
-import Section from "./components/Section";
+import SectionWrapper from "./components/SectionWrapper";
 import useImageUpload from "./hooks/useImageUpload";
 import useStore from "./hooks/useStore";
 import useUiActions from "./hooks/useUiActions";
@@ -34,30 +33,20 @@ const App = () => {
         {foldersEntries.length ? (
           <FolderButton onClick={addFolder} />
         ) : (
-          <AddButton folderId="initial" onImageAdd={addImage(0)} />
+          <AddButton folderId={0} onImageAdd={addImage(0)} />
         )}
       </header>
 
       <DndProvider backend={HTML5Backend}>
         {foldersEntries.map(([folderId, { imageUrls, name }]) => (
-          <Section
-            button={
-              <AddButton
-                folderId={folderId}
-                onImageAdd={addImage(parseInt(folderId))}
-              />
-            }
+          <SectionWrapper
+            addImage={addImage}
+            changeFolderName={changeFolderName}
             folderId={parseInt(folderId)}
-            folderName={
-              <FolderName
-                name={name}
-                onChangeFolderName={changeFolderName(parseInt(folderId))}
-              />
-            }
             imageUrls={imageUrls}
-            isFirst={folderId === "0"}
             key={folderId}
-            onMoveImage={moveImage(parseInt(folderId))}
+            moveImage={moveImage}
+            name={name}
           />
         ))}
       </DndProvider>
