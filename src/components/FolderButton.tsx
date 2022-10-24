@@ -4,7 +4,7 @@ type Props = {
   onClick: () => void;
 };
 
-const TITLE = "Add a new folder";
+const TITLE = "Add new folder";
 
 const FolderButton = ({ onClick }: Props) => (
   <div>
